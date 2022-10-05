@@ -36,32 +36,57 @@ const Listings = (props) => {
     setIsListings(!isListings)
   }
 
-  return(
-    <Grid
-      item xs
-      container
+  return (
+    <Box
+      sx={{
+        border: 1,
+        width: '100%',
+        height: 700,
+        p: '1vh',
+        mt: '2vh',
+        mr: '2vh'
+      }}
     >
-      <Grid
-        item xs
-        container
-        direction='column'
+      <Box
+        backgroundColor='columbiaBlue.main'
+        // justify='left'
+        // align='center'
+        sx={{
+          border: 1,
+          width: 'fit-content',
+          p: '1vh',
+          mb: '1vh'
+        }}
       >
         <ListingsButtons
           userProfile={props.userProfile}
           loggedInProfile={props.loggedInProfile}
         />
-        <Box className='listings'>
+      </Box>
+      <Box
+        backgroundColor='columbiaBlue.main'
+        sx={{
+          border: 1,
+          p: '1vh',
+          mt: '1vh'
+        }}
+      >
+        <Grid
+          item xs
+          container
+          direction='column'
+        >
           {isListings
-          ? listings.map(listing =>
-            <Listing listing={listing} />
-          )
-          : savedListings.map(listing =>
-            <Listing listing={listing} />
-          )}
+            ? listings.map(listing =>
+              <Listing listing={listing} />
+            )
+            : savedListings.map(listing =>
+              <Listing listing={listing} />
+            )}
           <AddBookToProfileModal />
-        </Box>
-      </Grid>
-    </Grid>
+        </Grid>
+      </Box>
+    </Box>
   )
 }
 

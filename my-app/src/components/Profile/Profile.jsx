@@ -62,9 +62,6 @@ const Profile = () => {
           item xs={9}
           container
           direction='row'
-          sx={{
-            p: '1vh'
-          }}
         >
           <Box
             sx={{
@@ -72,21 +69,13 @@ const Profile = () => {
               width: '100%',
               height: 50,
               p: '1vh',
-              mt: '5vh',
+              mt: '2vh',
               mr: '2vh'
             }}
           >
             <UserSearch />
           </Box>
-          <Box
-            sx={{
-              border: 1,
-              width: '100%',
-              height: 700,
-              p: '1vh'
-            }}>
-            <Listings />
-          </Box>
+          <Listings />
         </Grid>
       </Grid>
     </ThemeProvider>

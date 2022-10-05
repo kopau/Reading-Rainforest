@@ -81,6 +81,7 @@ const UserInfo = () => {
               backgroundColor='white'
               align='center'
               justifyContent='center'
+              height='auto'
             >
               <Typography
                 variant='h6'

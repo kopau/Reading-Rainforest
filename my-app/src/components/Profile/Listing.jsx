@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -23,7 +24,16 @@ const theme = createTheme({
 
 const Listing = (props) => {
   return (
-    <div>{props.listing}</div>
+    <Box
+      sx={{
+        border: 1,
+        backgroundColor: 'white',
+        p: '1vh',
+        mt: '1vh',
+        mb: '1vh'
+      }}>
+        {props.listing}
+    </Box>
   )
 }
 
