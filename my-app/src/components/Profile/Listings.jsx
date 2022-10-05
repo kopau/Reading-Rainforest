@@ -37,33 +37,31 @@ const Listings = (props) => {
   }
 
   return(
-    <>
     <Grid
-      item xs={9}
+      item xs
       container
     >
       <Grid
-        item xs={9}>
-        <ThemeProvider theme={theme}>
-          <ListingsButtons
-            userProfile={props.userProfile}
-            loggedInProfile={props.loggedInProfile}
-          />
-          <Box className='listings'>
-            {isListings
-            ? listings.map(listing =>
-              <Listing listing={listing} />
-            )
-            : savedListings.map(listing =>
-              <Listing listing={listing} />
-            )}
-            <AddBookToProfileModal />
-          </Box>
-        </ThemeProvider>
-
+        item xs
+        container
+        direction='column'
+      >
+        <ListingsButtons
+          userProfile={props.userProfile}
+          loggedInProfile={props.loggedInProfile}
+        />
+        <Box className='listings'>
+          {isListings
+          ? listings.map(listing =>
+            <Listing listing={listing} />
+          )
+          : savedListings.map(listing =>
+            <Listing listing={listing} />
+          )}
+          <AddBookToProfileModal />
+        </Box>
       </Grid>
     </Grid>
-    </>
   )
 }
 
