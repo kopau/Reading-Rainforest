@@ -11,15 +11,19 @@ const Search = () => {
   const [booksData, setBooksData] = React.useState({});
   const location = useLocation();
   const { searchInput } = location.state;
-  console.log("The search input:", searchInput);
+  // console.log("The search input:", searchInput);
   React.useEffect(() => {
     if (searchInput.length !== "") {
-      console.log("Search Input:", searchInput);
+      console.log("UseEffect Search Input:", searchInput);
       axios
         .get(`http://localhost:3002/search/books/${searchInput}`)
         .then((response) => {
           console.log("response:", response.data);
-          setBooksData(response.data);
+          if (response.data === undefined) {
+            setBooksData({});
+          } else {
+            setBooksData(response.data);
+          }
           console.log("Books data:", booksData);
         })
         .catch((error) => console.log(error));
@@ -45,7 +49,7 @@ const Search = () => {
               );
             })
           ) : (
-            <p>No Books Found</p>
+            <></>
           )}
         </Grid>
       </Container>
