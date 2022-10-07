@@ -53,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
       width: "40ch",
       "&:focus": {
-        width: "55ch",
+        width: "45ch",
       },
     },
   },
@@ -72,7 +72,9 @@ const Layout = ({ setUser }) => {
   };
 
   let handleSignOut = async (e) => {
-    await firebase_auth.signOut().then(()=>{setUser({})});
+    await firebase_auth.signOut().then(() => {
+      setUser({});
+    });
     // document.getElementById('signInDiv').hidden = false;
   };
 
@@ -100,7 +102,7 @@ const Layout = ({ setUser }) => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Search"
               inputProps={{ "aria-label": "search" }}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
@@ -128,7 +130,7 @@ const Layout = ({ setUser }) => {
             >
               <Grid item>
                 <Button color="inherit">
-                  <Badge badgeContent={29} color="error">
+                  <Badge badgeContent={0} color="error">
                     <nav>
                       <Link
                         style={{ color: "white", textDecoration: "none" }}
@@ -143,7 +145,7 @@ const Layout = ({ setUser }) => {
 
               <Grid item>
                 <Button color="inherit">
-                  <Badge badgeContent={12} color="error">
+                  <Badge badgeContent={0} color="error">
                     <nav>
                       <Link
                         style={{ color: "white", textDecoration: "none" }}

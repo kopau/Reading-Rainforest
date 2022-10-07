@@ -21,14 +21,16 @@ import {
 } from "firebase/firestore";
 import { firestore } from '../../firebase';
 import { UserContext } from '../../components/App';
+import { ChatContext } from '../../components/App';
 
-const ProfileSearch = ({value}) => {
+const ProfileSearch = () => {
   //username being searched for
   const [username, setUsername] = useState("")
   const [user, setUser] = useState(null)
   const [error, setError] = useState(false)
   const { user: currentUser } = useContext(UserContext)
   const textInput = useRef(null)
+  const { dispatch } = useContext(ChatContext);
 
   const handleSearch = async () => {
     const q = query(
@@ -78,13 +80,13 @@ const ProfileSearch = ({value}) => {
           await updateDoc(doc(firestore, "userChats", user.uid), {
             [combinedID  + ".userInfo"]: {
               uid: currentUser.uid,
-              displayName: currentUser.displayName,
-              photoURL: currentUser.photoURL,
+              displayName: currentUser.name,
+              photoURL: currentUser.profilePhoto,
             },
             [combinedID + ".date"]: serverTimestamp(),
           });
       } else {
-        value.dispatch({type:'CHANGE_USER', payload: user})
+        dispatch({type:'CHANGE_USER', payload: user})
       }
       } catch (err) { console.log(err)}
 
@@ -113,7 +115,7 @@ const ProfileSearch = ({value}) => {
           <Avatar alt={`${user.displayName}`} src={`${user.photoURL}`} />
         </ListItemIcon>
         <ListItemText primary={`${user.displayName}`}>{user.displayName}</ListItemText>
-        <ListItemText secondary="online" align="right"></ListItemText>
+        {/* <ListItemText secondary="online" align="right"></ListItemText> */}
       </ListItem>
     }
   </>)

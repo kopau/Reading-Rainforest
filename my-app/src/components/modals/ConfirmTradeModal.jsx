@@ -1,5 +1,6 @@
 import * as React from "react";
 import axios from 'axios';
+import {v4 as uuidv4} from 'uuid'
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -91,7 +92,7 @@ export default function ConfirmTradeModal({ otherUser, book }) {
       'uidFrom': user.uid,
       "isbnFrom": params.row.industryIdentifiers[0].identifier,
       'uidTo': otherUser.uid,
-      'isbnTo': book.industryIdentifiers[0].identifier
+      'isbnTo': book?.industryIdentifiers[0].identifier
     };
     setSelection(newSelect);
   };
@@ -99,12 +100,35 @@ export default function ConfirmTradeModal({ otherUser, book }) {
   let submitTrade = () => {
     // write function to send request to BackEnd
     if (selection.isbnFrom && selection.isbnTo && selection.uidFrom && selection.uidTo) {
-      alert(`Trade Request 'Sent' 😬, Info:
-            isbnFrom ${selection.isbnFrom}
-            isbnTo ${selection.isbnTo}
-            uidFrom ${selection.uidFrom}
-            uidTo ${selection.uidTo}
-            `);
+      const tradeID = uuidv4();
+      const userTemp = {
+        uid: selection.uidFrom,
+        isbnUser: selection.isbnFrom,
+        isbnTrader: selection.isbnTo,
+        tradedToUser: selection.uidTo,
+        status: 'sent',
+        transactionID: tradeID
+      }
+      const tradeTemp = {
+        uid: selection.uidTo,
+        isbnUser: selection.isbnTo,
+        isbnTrader: selection.isbnFrom,
+        tradedToUser: selection.uidFrom,
+        status: 'received',
+        transactionID: tradeID
+      }
+      axios.post(`${process.env.REACT_APP_BE_URI}/trade/add`, userTemp)
+        .then(() => console.log('Trade Added!'))
+        .catch((err) => console.log('Failed to Add Trade'))
+      axios.post(`${process.env.REACT_APP_BE_URI}/trade/add`, tradeTemp)
+        .then(() => console.log('Trade Added!'))
+        .catch((err) => console.log('Failed to Add Trade'))
+      // alert(`Trade Request 'Sent' 😬, Info:
+      //       isbnFrom ${selection.isbnFrom}
+      //       isbnTo ${selection.isbnTo}
+      //       uidFrom ${selection.uidFrom}
+      //       uidTo ${selection.uidTo}
+      //       `);
     } else {
       alert('Trade Request Failed, no book selected');
     }
@@ -130,7 +154,6 @@ export default function ConfirmTradeModal({ otherUser, book }) {
     listOfBooks[i]['id'] = i;
   }
 
-
   return (
     <div>
       <Button variant="contained" color="mintGreen" onClick={handleOpen} endIcon={<SwapHorizIcon />} >
@@ -154,7 +177,12 @@ export default function ConfirmTradeModal({ otherUser, book }) {
             <Divider orientation="vertical" variant="middle" flexItem />
             <Box className='UserBookLabel' sx={UserBookLabel}>
               <Typography id="UserBookNameLabel" variant="h5" component="h2" sx={UserBookNameLabel}>Book</Typography>
-              <Typography id="UserBookValueLabel" variant="h5" component="h2" sx={UserBookValueLabel}>{book.title}</Typography>
+              <Typography id="UserBookValueLabel" variant="h5" component="h2" sx={UserBookValueLabel}>
+                {book?.title.length > 30?
+                book?.title.split(' ').slice(0,3).join(' ') + '...':
+                book?.title
+                }
+              </Typography>
             </Box>
             <Avatar alt="book-pic" src={book.imageLinks.smallThumbnail} sx={profilePic} />
           </Box>
